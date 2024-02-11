@@ -1,0 +1,61 @@
+## Week 3 Homework
+ATTENTION: At the end of the submission form, you will be required to include a link to your GitHub repository or other public code-hosting site. This repository should contain your code for solving the homework. If your solution includes code that is not in file format (such as SQL queries or shell commands), please include these directly in the README file of your repository.
+
+<b><u>Important Note:</b></u> <p> For this homework we will be using the 2022 Green Taxi Trip Record Parquet Files from the New York
+City Taxi Data found here: </br> https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page </br>
+If you are using orchestration such as Mage, Airflow or Prefect do not load the data into Big Query using the orchestrator.</br> 
+Stop with loading the files into a bucket. </br></br>
+<u>NOTE:</u> You will need to use the PARQUET option files when creating an External Table</br>
+
+<b>SETUP:</b></br>
+Create an external table using the Green Taxi Trip Records Data for 2022. </br>
+Create a table in BQ using the Green Taxi Trip Records for 2022 (do not partition or cluster this table). </br>
+</p>
+
+## Question 1:
+Question 1: What is count of records for the 2022 Green Taxi Data??
+
+## Question 2:
+Write a query to count the distinct number of PULocationIDs for the entire dataset on both the tables.</br> 
+What is the estimated amount of data that will be read when this query is executed on the External Table and the Table?
+
+SELECT count(distinct pu_location_id)  FROM ny_taxi.green_data_taxi_2022V2 ;
+SELECT count(distinct pu_location_id)  FROM ny_taxi.green_data_taxi_2022_externalV2 ;
+
+## Question 3:
+How many records have a fare_amount of 0?
+SELECT COUNT (*) FROM ny_taxi.green_data_taxi_2022V2 WHERE fare_amount = 0 ;
+
+
+## Question 4:
+What is the best strategy to make an optimized table in Big Query if your query will always order the results by PUlocationID and filter based on lpep_pickup_datetime? (Create a new table with this strategy)
+
+create table ny_taxi.green_taxi_2022_patition 
+partition by DATE(lpep_pickup_datetimestamp)
+cluster by pu_location_id AS
+SELECT * FROM ny_taxi.green_taxi_2022V3;
+
+## Question 5:
+Write a query to retrieve the distinct PULocationID between lpep_pickup_datetime
+06/01/2022 and 06/30/2022 (inclusive)</br>
+
+SELECT DISTINCT pu_location_id
+FROM ny_taxi.green_taxi_2022_patition 
+WHERE CAST(lpep_pickup_datetimestamp AS date) > '2022-06-01' AND CAST(lpep_pickup_datetimestamp AS date) <= '2022-06-30';
+
+## Question 6: 
+Where is the data stored in the External Table you created?
+
+## Question 7:
+It is best practice in Big Query to always cluster your data:
+- True
+- False
+
+
+## (Bonus: Not worth points) Question 8:
+No Points: Write a `SELECT count(*)` query FROM the materialized table you created. How many bytes does it estimate will be read? Why?
+
+ 
+## Submitting the solutions
+
+* Form for submitting: https://courses.datatalks.club/de-zoomcamp-2024/homework/hw3
