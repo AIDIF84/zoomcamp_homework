@@ -1,1 +1,34 @@
-
+Question 1:
+      def square_root_generator(limit):
+          n = 1
+          while n <= limit:
+              yield n ** 0.5
+              n += 1
+      
+      # Example usage:
+      limit = 5
+      generator = square_root_generator(limit)
+      
+      sum_sqrt = 0
+      n = 0
+      for sqrt_value in generator:
+          sum_sqrt += sqrt_value
+          n += 1
+          print(sqrt_value,sum_sqrt)
+Question 2:
+      def square_root_generator(limit):
+          n = 1
+          while n <= limit:
+              yield n ** 0.5
+              n += 1
+      
+      # Example usage:
+      limit = 13
+      generator = square_root_generator(limit)
+      
+      sum_sqrt = 0
+      n = 0
+      for sqrt_value in generator:
+          sum_sqrt += sqrt_value
+          n += 1
+          print(sqrt_value,sum_sqrt)
